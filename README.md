@@ -10,7 +10,7 @@ Available as a [![NuGet](http://img.shields.io/nuget/v/Pbkdf2.svg?style=flat-squ
 ```csharp
 var saltBytes = new byte [] {1, 2, 3, 4, 5}; // use much more than this!
 var hash = Pbkdf2.Compute("HMACSHA512", "my password", saltBytes, 
-           100_000 /* iterations */, 32 /* hash size in bytes */);
+           100000 /* iterations */, 32 /* hash size in bytes */);
 ```
 
 ## Full way
@@ -18,7 +18,7 @@ var hash = Pbkdf2.Compute("HMACSHA512", "my password", saltBytes,
 ```csharp
 var saltBytes = new byte [] {1, 2, 3, 4, 5}; // use much more than this!
 using var pbkdf2 = new HMACPbkdf2DeriveBytes("HMACSHA512", "my password", saltBytes, 
-           100_000 /* iterations */);
+           100000 /* iterations */);
 var hash = pbkdf2.GetBytes(32 /* hash size in bytes */);
 ```
 
