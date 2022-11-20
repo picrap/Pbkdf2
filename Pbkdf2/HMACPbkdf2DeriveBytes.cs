@@ -27,11 +27,15 @@ public class HMACPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 #endif
     private static HMAC CreateHMAC(string hashAlgorithmName, byte[] password)
     {
-        var hmac = HMAC.Create(hashAlgorithmName);
-        if (hmac is null)
-            throw new ArgumentException($"Unknown hash algorithm {hashAlgorithmName}");
-        hmac.Key = password;
-        return hmac;
+        return hashAlgorithmName?.ToUpper() switch
+        {
+            "HMACMD5" or "MD5" => new HMACMD5(password),
+            "HMACSHA1" or "SHA1" => new HMACSHA1(password),
+            "HMACSHA256" or "SHA256" => new HMACSHA256(password),
+            "HMACSHA384" or "SHA384" => new HMACSHA384(password),
+            "HMACSHA512" or "SHA512" => new HMACSHA512(password),
+            _ => throw new ArgumentException($"Unknown hash algorithm {hashAlgorithmName}")
+        };
     }
 
     protected override byte[] PseudoRandomFunction(byte[] data)
