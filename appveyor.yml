@@ -9,11 +9,14 @@ branches:
 configuration: Release
 platform: Any CPU
 
+before_build:
+  nuget restore
+
 build:
   parallel: true
   project: Pbkdf2.sln
-  publish_nuget: false
-  publish_nuget_symbols: false
+  publish_nuget: true
+  publish_nuget_symbols: true
   verbosity: minimal
   
 deploy:
