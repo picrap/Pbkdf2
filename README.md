@@ -26,6 +26,10 @@ var hash = pbkdf2.GetBytes(32 /* hash size in bytes */);
 All methods can be overriden so any part of hash can be replaced.
 The idea is to avoid being brute forced by an ASIC.
 
+Currently there are two classes:
+- `Pbkdf2DeriveBytes` is the abstract class which requires only to add a pseudo-random function
+- `HMACPbkdf2DeriveBytes` ir an implementation of `Pbkdf2DeriveBytes`, specific to use HMACs.
+
 # References
 
 - [RFC 2898](https://www.rfc-editor.org/rfc/rfc2898): the reference
