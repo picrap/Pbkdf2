@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
 namespace Pbkdf2;
 
@@ -8,19 +9,19 @@ public class HMACPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 
     protected override int BlockLength => _hmac.HashSize / 8;
 
-    public HMACPbkdf2DeriveBytes(HMAC hmac, byte[] salt, int count, int desiredKeyLength) : base(salt, count, desiredKeyLength)
+    public HMACPbkdf2DeriveBytes(HMAC hmac, byte[] salt, int iterations) : base(salt, iterations)
     {
         _hmac = hmac;
     }
 
-    public HMACPbkdf2DeriveBytes(string hashAlgorithmName, byte[] password, byte[] salt, int count, int desiredKeyLength)
-        : this(CreateHMAC(hashAlgorithmName, password), salt, count, desiredKeyLength)
+    public HMACPbkdf2DeriveBytes(string hashAlgorithmName, byte[] password, byte[] salt, int iterations)
+        : this(CreateHMAC(hashAlgorithmName, password), salt, iterations)
     {
     }
 
 #if NET6_0_OR_GREATER
-    public HMACPbkdf2DeriveBytes(HashAlgorithmName hashAlgorithmName, byte[] password, byte[] salt, int count, int desiredKeyLength)
-        : this(hashAlgorithmName.Name, password, salt, count, desiredKeyLength)
+    public HMACPbkdf2DeriveBytes(HashAlgorithmName hashAlgorithmName, byte[] password, byte[] salt, int iterations)
+        : this(hashAlgorithmName.Name, password, salt, iterations)
     {
     }
 #endif
