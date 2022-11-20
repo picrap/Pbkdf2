@@ -15,5 +15,8 @@
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net40-client' ">
+		<BaseOutputPath>bin\$(Platform)\</BaseOutputPath>
+	</PropertyGroup>
 
 </Project>

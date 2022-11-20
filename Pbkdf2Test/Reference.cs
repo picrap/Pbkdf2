@@ -28,6 +28,6 @@ public class Reference
         var saltBytes = Encoding.UTF8.GetBytes(salt);
         var reference = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, interations, new HashAlgorithmName(algorithmName), desiredKeyLength);
         var testedImplementation = Pbkdf2.Compute("HMAC" + algorithmName, passwordBytes, saltBytes, interations, desiredKeyLength);
-        Assert.AreEqual(reference, testedImplementation);
+        Assert.That(reference, Is.EqualTo(testedImplementation));
     }
 }
