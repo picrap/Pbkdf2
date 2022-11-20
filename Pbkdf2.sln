@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pbkdf2", "Pbkdf2\Pbkdf2.csproj", "{C995E07E-F755-4C87-A6E9-018E8BE5A89C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C995E07E-F755-4C87-A6E9-018E8BE5A89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C995E07E-F755-4C87-A6E9-018E8BE5A89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C995E07E-F755-4C87-A6E9-018E8BE5A89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C995E07E-F755-4C87-A6E9-018E8BE5A89C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62172175-09B3-4ED8-882B-FDC8F79438D4}
+	EndGlobalSection
+EndGlobal
