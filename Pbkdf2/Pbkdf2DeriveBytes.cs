@@ -44,10 +44,11 @@ public abstract class Pbkdf2DeriveBytes : DeriveBytes
     protected virtual byte[] ComputeBlock(byte[] salt, int count, int blockNumber)
     {
         var block = new byte[BlockLength];
+        var currentBlockIteration = new byte[BlockLength];
         for (int iterationNumber = 1; iterationNumber <= count; iterationNumber++)
         {
-            var iterationBlock = ComputeBlockIteration(block, salt, blockNumber, iterationNumber);
-            CombineBlockIteration(block, iterationBlock);
+            currentBlockIteration = ComputeBlockIteration(currentBlockIteration, salt, blockNumber, iterationNumber);
+            CombineBlockIteration(block, currentBlockIteration);
         }
 
         return block;
