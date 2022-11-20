@@ -5,6 +5,15 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Pbkdf2</Title>
+		<PackageProjectUrl>https://github.com/picrap/Pbkdf2</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/picrap/Pbkdf2.git</RepositoryUrl>
+		<FileVersion></FileVersion>
+		<AssemblyVersion>0.1</AssemblyVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 </Project>
