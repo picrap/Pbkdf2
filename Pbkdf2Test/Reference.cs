@@ -4,6 +4,8 @@ using Pbkdf2;
 
 namespace Pbkdf2Test;
 
+using Pbkdf2;
+
 [TestFixture]
 public class Reference
 {
@@ -25,7 +27,7 @@ public class Reference
         var passwordBytes = Encoding.UTF8.GetBytes(password);
         var saltBytes = Encoding.UTF8.GetBytes(salt);
         var reference = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, interations, new HashAlgorithmName(algorithmName), desiredKeyLength);
-        var testedImplementation = Compute.Pbkdf2("HMAC" + algorithmName, passwordBytes, saltBytes, interations, desiredKeyLength);
+        var testedImplementation = Pbkdf2.Compute("HMAC" + algorithmName, passwordBytes, saltBytes, interations, desiredKeyLength);
         Assert.AreEqual(reference, testedImplementation);
     }
 }
