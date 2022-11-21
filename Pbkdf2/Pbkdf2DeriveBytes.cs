@@ -18,11 +18,11 @@ public abstract class Pbkdf2DeriveBytes : DeriveBytes
         Iterations = iterations;
     }
 
-    public override byte[] GetBytes(int cb)
+    public override byte[] GetBytes(int desiredLength)
     {
-        var derivedKey = new byte[cb];
-        var blocksCount = cb / BlockLength;
-        if (cb % BlockLength != 0)
+        var derivedKey = new byte[desiredLength];
+        var blocksCount = desiredLength / BlockLength;
+        if (desiredLength % BlockLength != 0)
             blocksCount++;
 
         var blockOffset = 0;
