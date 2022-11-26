@@ -1,8 +1,7 @@
-using Microsoft.VisualBasic;
-using System.Data.SqlTypes;
 using System.Security.Cryptography;
 using System.Text;
 using Pbkdf2;
+using System;
 
 namespace Pbkdf2Test;
 
@@ -22,7 +21,7 @@ public class Performance
         var t0 = DateTime.UtcNow;
         var reference = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, iterations, new HashAlgorithmName(algorithmName), desiredKeyLength);
         var t1 = DateTime.UtcNow;
-        var testedImplementation = Pbkdf2.Pbkdf2.Compute("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
+        var testedImplementation = Pbkdf2.Pbkdf2.HashData("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
         var t2 = DateTime.UtcNow;
         var dtDotNet = t1 - t0;
         var dtMe = t2 - t1;
