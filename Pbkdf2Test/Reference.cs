@@ -26,7 +26,17 @@ public class Reference
     {
         var passwordBytes = Encoding.UTF8.GetBytes(password);
         var saltBytes = Encoding.UTF8.GetBytes(salt);
+#if NET6_0_OR_GREATER
         var reference = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, iterations, new HashAlgorithmName(algorithmName), desiredKeyLength);
+#else
+        if (algorithmName != "SHA1")
+        {
+            Assert.Inconclusive();
+            return;
+        }
+        var rfc2898DeriveBytes = new Rfc2898DeriveBytes(passwordBytes, saltBytes, iterations);
+        var reference = rfc2898DeriveBytes.GetBytes(desiredKeyLength);
+#endif
         var testedImplementation = Pbkdf2.Compute("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
         Assert.That(reference, Is.EqualTo(testedImplementation));
     }

@@ -1,5 +1,4 @@
-using Microsoft.VisualBasic;
-using System.Data.SqlTypes;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using Pbkdf2;
@@ -9,7 +8,7 @@ namespace Pbkdf2Test;
 [TestFixture]
 public class Performance
 {
-#if DEBUG
+#if DEBUG && NET6_0_OR_GREATER
     [Test]
     public void Benchmark()
     {
@@ -20,7 +19,7 @@ public class Performance
         var desiredKeyLength = 32 << 10;
 
         var t0 = DateTime.UtcNow;
-        var reference = Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, iterations, new HashAlgorithmName(algorithmName), desiredKeyLength);
+        var reference = System.Security.Cryptography.Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, iterations, new HashAlgorithmName(algorithmName), desiredKeyLength);
         var t1 = DateTime.UtcNow;
         var testedImplementation = Pbkdf2.Pbkdf2.Compute("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
         var t2 = DateTime.UtcNow;
