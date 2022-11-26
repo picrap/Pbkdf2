@@ -19,6 +19,12 @@ public class HMACPbkdf2DeriveBytes : Pbkdf2DeriveBytes
     {
     }
 
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        _hmac.Dispose();
+    }
+
 #if NET6_0_OR_GREATER
     public HMACPbkdf2DeriveBytes(HashAlgorithmName hashAlgorithmName, byte[] password, byte[] salt, int iterations)
         : this(hashAlgorithmName.Name, password, salt, iterations)
