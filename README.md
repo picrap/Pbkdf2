@@ -9,7 +9,7 @@ Available as a [![NuGet](https://img.shields.io/nuget/v/Pbkdf2.svg?style=flat-sq
 
 ```csharp
 var saltBytes = new byte [] {1, 2, 3, 4, 5}; // use much more than this!
-var hash = Pbkdf2.Compute("HMACSHA512", "my password", saltBytes, 
+var hash = Pbkdf2.HashData("HMACSHA512", "my password", saltBytes, 
            100000 /* iterations */, 32 /* hash size in bytes */);
 ```
 
