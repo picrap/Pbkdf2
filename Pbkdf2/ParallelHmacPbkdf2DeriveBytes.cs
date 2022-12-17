@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace Pbkdf2;
 
-#if NET6_0_OR_GREATER 
+#if NET6_0_OR_GREATER
 
 public class ParallelHmacPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 {
@@ -15,6 +15,17 @@ public class ParallelHmacPbkdf2DeriveBytes : Pbkdf2DeriveBytes
     protected override int BlockLength => _blockLength;
 
     private readonly Queue<HMAC> _hmacs = new();
+
+    public ParallelHmacPbkdf2DeriveBytes(string hashAlgorithmName, byte[] password, byte[] salt, int iterations)
+        : this(() => Pbkdf2.CreateHMAC(hashAlgorithmName, password), salt, iterations)
+    {
+    }
+
+    public ParallelHmacPbkdf2DeriveBytes(HashAlgorithmName hashAlgorithmName, byte[] password, byte[] salt,
+        int iterations)
+        : this(hashAlgorithmName.Name, password, salt, iterations)
+    {
+    }
 
     public ParallelHmacPbkdf2DeriveBytes(Func<HMAC> createHmac, byte[] salt, int iterations)
         : base(salt, iterations)
@@ -48,7 +59,8 @@ public class ParallelHmacPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 
     protected override IEnumerable<Tuple<int, byte[]>> ComputeBlocks(int firstBlockNumber, int blocksCount, object context)
     {
-        return Enumerable.Range(firstBlockNumber, blocksCount).AsParallel().Select(b => Tuple.Create(b, ComputeBlock(Salt, Iterations, b, context)));
+        return Enumerable.Range(firstBlockNumber, blocksCount).AsParallel()
+            .Select(b => Tuple.Create(b, ComputeBlock(Salt, Iterations, b, context)));
     }
 
     private TResult UsingHmac<TResult>(Func<HMAC, TResult> func)
@@ -71,7 +83,7 @@ public class ParallelHmacPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 
     protected override byte[] PseudoRandomFunction(byte[] data, object context)
     {
-        var hmac = (HMAC)context;
+        var hmac = (HMAC) context;
         return hmac.ComputeHash(data);
     }
 }

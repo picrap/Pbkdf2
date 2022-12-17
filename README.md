@@ -17,7 +17,7 @@ var hash = Pbkdf2.HashData("HMACSHA512", "my password", saltBytes,
 
 ```csharp
 var saltBytes = new byte [] {1, 2, 3, 4, 5}; // use much more than this!
-using var pbkdf2 = new HMACPbkdf2DeriveBytes("HMACSHA512", "my password", saltBytes, 
+using var pbkdf2 = new HmacPbkdf2DeriveBytes("HMACSHA512", "my password", saltBytes, 
            100000 /* iterations */);
 var hash = pbkdf2.GetBytes(32 /* hash size in bytes */);
 ```
@@ -25,11 +25,12 @@ var hash = pbkdf2.GetBytes(32 /* hash size in bytes */);
 ## Derive
 
 All methods can be overriden so any part of hash can be replaced.
-The idea is to avoid being brute forced by an ASIC.
+The idea is to avoid being brute forced by an ASIC, for example by simply adding a user block manipulation at `PseudoRandomFunction` or `ComputeBlockIteration`.
 
-Currently there are two classes:
+Currently there are three classes:
 - `Pbkdf2DeriveBytes` is the abstract class which requires only to add a pseudo-random function
-- `HMACPbkdf2DeriveBytes` ir an implementation of `Pbkdf2DeriveBytes`, specific to use HMACs.
+- `HmacPbkdf2DeriveBytes` is an implementation of `Pbkdf2DeriveBytes`, specific to use HMACs.
+- `ParallelHmacPbkdf2DeriveBytes` is an implementation of `Pbkdf2DeriveBytes`, specific to use HMACs and work in parallel (using PLINQ).
 
 # References
 

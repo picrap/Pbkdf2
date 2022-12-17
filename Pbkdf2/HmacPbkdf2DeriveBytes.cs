@@ -9,7 +9,8 @@ public class HmacPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 
     protected override int BlockLength => _hmac.HashSize / 8;
 
-    public HmacPbkdf2DeriveBytes(HMAC hmac, byte[] salt, int iterations) : base(salt, iterations)
+    public HmacPbkdf2DeriveBytes(HMAC hmac, byte[] salt, int iterations) 
+        : base(salt, iterations)
     {
         _hmac = hmac;
     }
