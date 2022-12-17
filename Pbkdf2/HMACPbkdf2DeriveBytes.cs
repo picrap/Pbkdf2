@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Pbkdf2;
@@ -31,6 +33,7 @@ public class HMACPbkdf2DeriveBytes : Pbkdf2DeriveBytes
     {
     }
 #endif
+
     private static HMAC CreateHMAC(string hashAlgorithmName, byte[] password)
     {
         return hashAlgorithmName?.ToUpper() switch
@@ -46,6 +49,7 @@ public class HMACPbkdf2DeriveBytes : Pbkdf2DeriveBytes
 
     protected override byte[] PseudoRandomFunction(byte[] data)
     {
-        return _hmac.ComputeHash(data);
+        lock (_hmac)
+            return _hmac.ComputeHash(data);
     }
 }

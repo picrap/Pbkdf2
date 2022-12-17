@@ -5,6 +5,7 @@ using Pbkdf2;
 namespace Pbkdf2Test;
 
 using Pbkdf2;
+using NUnit.Framework;
 
 [TestFixture]
 public class Reference
@@ -14,6 +15,7 @@ public class Reference
 
     [TestCase("SHA1", "pw", "salt", 1, 20)]
     [TestCase("SHA1", "pw", "salt", 1, 19)]
+    [TestCase("SHA1", "pw", "salt", 1, 21)]
     [TestCase("SHA1", "pw", "salt", 2, 20)]
     [TestCase("SHA1", "pw", "salt", 3, 20)]
     [TestCase("SHA1", "pw", "salt", 10, 20)]

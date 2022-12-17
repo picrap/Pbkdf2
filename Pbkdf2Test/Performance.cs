@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Pbkdf2;
 using System;
+using NUnit.Framework;
 
 namespace Pbkdf2Test;
 
