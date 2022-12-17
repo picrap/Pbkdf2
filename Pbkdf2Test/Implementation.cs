@@ -26,7 +26,7 @@ public class Implementation
         var iterations = 2;
         var algorithmName = "HMACSHA1";
         var fullRange = Pbkdf2.Pbkdf2.HashData(algorithmName, password, salt, iterations, 1000);
-        using var kdf = new HMACPbkdf2DeriveBytes(algorithmName, password, salt, iterations);
+        using var kdf = new HmacPbkdf2DeriveBytes(algorithmName, password, salt, iterations);
         var requestedRange = kdf.GetBytes(start, count);
         Assert.IsTrue(fullRange.Skip(start).Take(count).SequenceEqual(requestedRange));
     }

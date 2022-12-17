@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Xml.Schema;
 
 namespace Pbkdf2;
 
@@ -43,7 +44,7 @@ public abstract class Pbkdf2DeriveBytes : DeriveBytes
         var blocksCount = lastBlockIndex - firstBlockIndex + 1;
 
         var bytesEnd = bytesOffset + count;
-        foreach (var numberedBlock in ComputeBlocks(firstBlockIndex + 1, blocksCount))
+        foreach (var numberedBlock in ComputeBlocks(firstBlockIndex + 1, blocksCount, null))
         {
             var blockIndex = numberedBlock.Item1 - 1;
             var blockData = numberedBlock.Item2;
@@ -56,52 +57,48 @@ public abstract class Pbkdf2DeriveBytes : DeriveBytes
         }
     }
 
-    protected virtual IEnumerable<Tuple<int, byte[]>> ComputeBlocks(int firstBlockNumber, int blocksCount)
+    protected virtual IEnumerable<Tuple<int, byte[]>> ComputeBlocks(int firstBlockNumber, int blocksCount, object context)
     {
-        return Enumerable.Range(firstBlockNumber, blocksCount).Select(b => Tuple.Create(b, ComputeBlock(Salt, Iterations, b)));
-    }
-
-    private void PlaceBlock(byte[] block, int blockNumber, byte[] derivedKey)
-    {
-        var blockOffset = (blockNumber - 1) * BlockLength;
-        var remainingLength = Math.Min(block.Length, derivedKey.Length - blockOffset);
-        Buffer.BlockCopy(block, 0, derivedKey, blockOffset, remainingLength);
+        return Enumerable.Range(firstBlockNumber, blocksCount).Select(b => Tuple.Create(b, ComputeBlock(Salt, Iterations, b, context)));
     }
 
     public override void Reset()
     {
     }
 
-    protected virtual byte[] ComputeBlock(byte[] salt, int count, int blockNumber)
+    protected virtual byte[] ComputeBlock(byte[] salt, int count, int blockNumber, object context)
     {
         var block = new byte[BlockLength];
         var currentBlockIteration = new byte[BlockLength];
         for (int iterationNumber = 1; iterationNumber <= count; iterationNumber++)
         {
-            currentBlockIteration = ComputeBlockIteration(currentBlockIteration, salt, blockNumber, iterationNumber);
+            currentBlockIteration = ComputeBlockIteration(currentBlockIteration, salt, blockNumber, iterationNumber, context);
             CombineBlockIteration(block, currentBlockIteration);
         }
 
         return block;
     }
 
-    protected virtual byte[] ComputeBlockIteration(byte[] currentBlockIteration, byte[] salt, int blockNumber, int blockIterationNumber)
+    protected virtual byte[] ComputeBlockIteration(byte[] currentBlockIteration, byte[] salt, int blockNumber, int blockIterationNumber, object context)
     {
         return blockIterationNumber switch
         {
-            1 => ComputeBlockFirstIteration(salt, blockNumber),
-            _ => ComputeBlockNextIteration(currentBlockIteration)
+            1 => ComputeBlockFirstIteration(salt, blockNumber, context),
+            _ => ComputeBlockNextIteration(currentBlockIteration, context)
         };
     }
 
-    protected virtual byte[] ComputeBlockNextIteration(byte[] currentBlockIteration)
+    protected virtual byte[] ComputeBlockNextIteration(byte[] currentBlockIteration, object context)
     {
-        return PseudoRandomFunction(currentBlockIteration);
+        return PseudoRandomFunction(currentBlockIteration, context);
     }
 
-    protected virtual byte[] ComputeBlockFirstIteration(byte[] salt, int blockNumber)
+    protected virtual byte[] ComputeBlockFirstIteration(byte[] salt, int blockNumber, object context)
     {
-        return PseudoRandomFunction(salt, GetInt32BigEndian(blockNumber));
+        var firstBlock = new byte[salt.Length + 4];
+        Buffer.BlockCopy(salt, 0, firstBlock, 0, salt.Length);
+        Buffer.BlockCopy(GetInt32BigEndian(blockNumber), 0, firstBlock, salt.Length, 4);
+        return PseudoRandomFunction(firstBlock, context);
     }
 
     protected virtual byte[] GetInt32BigEndian(int i)
@@ -117,7 +114,5 @@ public abstract class Pbkdf2DeriveBytes : DeriveBytes
             currentBlockIteration[byteIndex] ^= newBlockIteration[byteIndex];
     }
 
-    protected abstract byte[] PseudoRandomFunction(byte[] data);
-    protected virtual byte[] PseudoRandomFunction(IEnumerable<byte> data) => PseudoRandomFunction(data.ToArray());
-    protected virtual byte[] PseudoRandomFunction(params byte[][] data) => PseudoRandomFunction(data.SelectMany(d => d));
+    protected abstract byte[] PseudoRandomFunction(byte[] data, object context);
 }

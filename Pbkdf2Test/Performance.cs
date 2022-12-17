@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using System.Text;
-using Pbkdf2;
 using System;
 using NUnit.Framework;
 
@@ -9,7 +8,7 @@ namespace Pbkdf2Test;
 [TestFixture]
 public class Performance
 {
-#if DEBUG
+#if DEBUG && NET6_0_OR_GREATER
     [Test]
     public void Benchmark()
     {
@@ -24,8 +23,11 @@ public class Performance
         var t1 = DateTime.UtcNow;
         var testedImplementation = Pbkdf2.Pbkdf2.HashData("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
         var t2 = DateTime.UtcNow;
+        var parallelImplementation = Pbkdf2.Pbkdf2.ParallelHashData(() => new HMACSHA512(passwordBytes), saltBytes, iterations, desiredKeyLength);
+        var t3 = DateTime.UtcNow;
         var dtDotNet = t1 - t0;
         var dtMe = t2 - t1;
+        var dtParallel = t3 - t2;
     }
 #endif
 }
