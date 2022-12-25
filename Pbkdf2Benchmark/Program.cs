@@ -1,10 +1,7 @@
 ﻿
-using System.Text;
+using BenchmarkDotNet.Running;
+using Pbkdf2Benchmark;
 
-var algorithmName = "SHA512";
-var passwordBytes = Encoding.UTF8.GetBytes("password");
-var saltBytes = Encoding.UTF8.GetBytes("salt");
-int iterations = 100_000;
-var desiredKeyLength = 32 << 10;
+BenchmarkRunner.Run<Performance>();
 
-var testedImplementation = Pbkdf2.Pbkdf2.HashData("HMAC" + algorithmName, passwordBytes, saltBytes, iterations, desiredKeyLength);
+Console.ReadKey();
