@@ -25,9 +25,15 @@ public static class Pbkdf2
     }
 
 #if NET6_0_OR_GREATER
-    public static byte[] ParallelHashData(Func<HMAC> createHmac, byte[] salt, int iterations, int desiredKeyLength)
+    public static byte[] ParallelHashData(Func<byte[], HMAC> createHmac, byte[] password, byte[] salt, int iterations, int desiredKeyLength)
     {
-        using var pbkdf2 = new ParallelHmacPbkdf2DeriveBytes(createHmac, salt, iterations);
+        using var pbkdf2 = new ParallelHmacPbkdf2DeriveBytes(createHmac, password, salt, iterations);
+        return pbkdf2.GetBytes(desiredKeyLength);
+    }
+
+    public static byte[] ParallelHashData(string algorithmName, byte[] password, byte[] salt, int iterations, int desiredKeyLength)
+    {
+        using var pbkdf2 = new ParallelHmacPbkdf2DeriveBytes(algorithmName, password, salt, iterations);
         return pbkdf2.GetBytes(desiredKeyLength);
     }
 #endif
