@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;netstandard1.3;net40-client</TargetFrameworks>
+		<TargetFrameworks>net6.0;netstandard1.3;net40-client;net8.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
@@ -9,7 +9,7 @@
 		<Title>Pbkdf2</Title>
 		<PackageProjectUrl>https://github.com/picrap/Pbkdf2</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/picrap/Pbkdf2.git</RepositoryUrl>
-		<VersionPrefix>1.2</VersionPrefix>
+		<VersionPefix></VersionPefix>
 		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeSymbols>True</IncludeSymbols>
