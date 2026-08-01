@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="appveyor.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Pbkdf2/Pbkdf2.csproj" />
+  <Project Path="Pbkdf2Benchmark/Pbkdf2Benchmark.csproj" />
+  <Project Path="Pbkdf2Test/Pbkdf2Test.csproj" />
+</Solution>
