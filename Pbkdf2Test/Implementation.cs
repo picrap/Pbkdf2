@@ -28,6 +28,6 @@ public class Implementation
         var fullRange = Pbkdf2.Pbkdf2.HashData(algorithmName, password, salt, iterations, 1000);
         using var kdf = new HmacPbkdf2DeriveBytes(algorithmName, password, salt, iterations);
         var requestedRange = kdf.GetBytes(start, count);
-        Assert.IsTrue(fullRange.Skip(start).Take(count).SequenceEqual(requestedRange));
+        Assert.That(fullRange.Skip(start).Take(count).SequenceEqual(requestedRange));
     }
 }
