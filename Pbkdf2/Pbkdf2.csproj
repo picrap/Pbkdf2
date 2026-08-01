@@ -9,7 +9,7 @@
 		<Title>Pbkdf2</Title>
 		<PackageProjectUrl>https://github.com/picrap/Pbkdf2</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/picrap/Pbkdf2.git</RepositoryUrl>
-		<VersionPefix></VersionPefix>
+		<VersionPefix>1.2.1</VersionPefix>
 		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeSymbols>True</IncludeSymbols>
